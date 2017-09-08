@@ -1,0 +1,36 @@
+#register-box{
+    width:500px;
+    height:400px;
+    margin:50px auto;
+    position:relative;
+    background:#efefef;
+    overflow:hidden;
+}
+input{
+    width:70%;
+    height:20px;
+    margin:50px 30px;
+    display:block;
+}
+.right{
+    color:green;
+}
+.error{
+    color:red;
+}
+#user-error{
+    position:absolute;
+    display:none;
+    left:400px;
+    top:50px;
+}
+#pwd-error{
+    position:absolute;
+    display:none;
+    left:400px;
+    top:140px;
+}
+#sub{
+    width:20%;
+    margin:20px 150px;
+}

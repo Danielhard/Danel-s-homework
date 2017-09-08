@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        div{
+            width:400px;
+            height:300px;
+            margin:30px auto;
+            background:grey;
+        }
+         input[type=text]{
+             width:80%;
+             height:20px;
+             margin:20px 30px;
+         }
+        input[type=password]{
+            width:80%;
+            height:20px;
+            margin:10px 30px;
+        }
+        input[type=button]{
+            width:30%;
+            height:20px;
+            margin:30px 120px;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+<input type="text" name="username" placeholder="请输入用户名">
+<input type="password" name="password" placeholder="请输入密码">
+<input type="button" value="登录">
+</div>
+<script src="myajax.js" charset="utf-8"></script>
+<script>
+    var oUsername=document.querySelector("input[type=text]");
+    var oPassword=document.querySelector("input[type=password]");
+    var oBtn=document.querySelector("input[type=button]");
+     oBtn.onclick=function(){
+         myajax.post('http://h6.duchengjiu.top/shop/api_user.php',
+             {
+                 status: 'login',
+                 username: oUsername.value,
+                 password: oPassword.value
+             }, function(error, responseText){
+                 var json = JSON.parse(responseText);
+                 console.log(json);
+                 localStorage.token = json.data.token;
+                 localStorage.username = json.data.username;
+                 console.log(localStorage.token);
+                 console.log(localStorage.username);
+             });
+     }
+
+
+</script>
+</body>
+</html>

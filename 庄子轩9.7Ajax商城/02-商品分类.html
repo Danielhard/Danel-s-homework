@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        body,html{
+            width:100%;
+        }
+        #header{
+            width:100%;
+            height:70px;
+            background:#efefef;
+        }
+        .navli{
+            width:60px;
+            height:30px;
+            float:left;
+            list-style-type: none;
+            margin:20px 30px;
+        }
+        .nava{
+            width:40px;
+            height:20px;
+            color:grey;
+        }
+        #search{
+            width:300px;
+            height:30px;
+            float:right;
+            margin:15px 40px;
+        }
+        #cat{
+            width:75%;
+            height:100px;
+            padding-left:25%;
+            margin:10px auto;
+        }
+        #cat> li {
+            float: left;
+            list-style: none;
+            margin-right: 20px;
+            background-color: orange;
+            padding: 10px;
+            color: white;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #good>li>div img{
+            display:block;
+            width:200px;
+            height:200px;
+        }
+        #good>li{
+            float:left;
+            list-style: none;
+            background-color:white;
+            border:1px solid #efefef;
+            width:200px;
+            height:350px;
+            margin:20px 35px 0 20px;
+        }
+        #good>li>div a{
+             color:black;
+        }
+        #good>li>div{
+            width:200px;
+            height:350px;
+            overflow: hidden;
+        }
+        #good>li>div p{
+            width:190px;
+            font-size:10px;
+            margin-left:7px;
+        }
+        #good>li>div span{
+            color:black;
+            float:right;
+            margin-right:10px;
+        }
+        #good>li>div>div{
+            height:110px;
+            width:200px;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <ul>
+        <li class="navli"><a class="nava" href="register.html">注册</a></li>
+        <li  class="navli"><a class="nava" href="06-login.html">登录</a></li>
+        <li  class="navli"><a class="nava" href="07-cart.html">购物车</a></li>
+    </ul>
+    <input id="search" type="text" placeholder="请输入要搜索的内容">
+</div>
+<ul id="cat"><li>首页</li></ul>
+<ul id="good"></ul>
+</body>
+
+<script src="myajax.js"></script>
+<script>
+    var oCat=document.querySelector("#cat");
+    var oGood=document.querySelector("#good");
+    var oSearch=document.querySelector("#search");
+    oSearch.onkeyup = function(event) {
+        if (event.keyCode === 13) {
+            location.href = '04-search.html?search_text='+this.value;
+        }
+    }
+    myajax.get('http://h6.duchengjiu.top/shop/api_cat.php',{},function (error,responseText){
+         var json=JSON.parse(responseText);
+         var data=json.data;
+        for(var i=0;i<data.length;i++){
+            var obj=data[i];
+            oCat.innerHTML+=`<li><a href="02-商品分类.html?cat_id=${obj.cat_id}">${obj.cat_name}</a></li>`
+        }
+    });
+     var cat_id=getQueryString("cat_id");
+     myajax.get('http://h6.duchengjiu.top/shop/api_goods.php?+cat_id='+cat_id, {
+     }, function (error, responseText) {
+         var json = JSON.parse(responseText);
+         var data = json.data;
+         for (var i = 0; i < data.length; i++) {
+             var obj = data[i];
+             oGood.innerHTML += `<li><div><img src="${obj.goods_thumb}"/><div>
+        <p><a href="#">${obj.goods_name}</a></p><p><a href="#">${obj.goods_desc}</a></p></div>
+        <a href="#"></a><span>￥：${obj.price}</span></div></li>`;
+         }
+     });
+</script>
+</html>
